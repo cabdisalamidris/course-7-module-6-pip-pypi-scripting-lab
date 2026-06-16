@@ -43,3 +43,21 @@ def test_empty_log_list_creates_empty_file():
         content = file.read()
     assert content == ""
     os.remove(filename)
+
+def test_generate_log_prints_confirmation_message(log_data, capsys):
+    """Test that the function prints a confirmation message with the filename."""
+    filename = generate_log(log_data)
+    captured = capsys.readouterr()
+    assert f"Log written to {filename}" in captured.out
+    os.remove(filename)
+
+def test_log_file_created_in_expected_directory_and_removed(log_data):
+    """Test that the log file is created in cwd and can be removed cleanly."""
+    filename = generate_log(log_data)
+    expected_path = os.path.join(os.getcwd(), filename)
+
+    assert os.path.abspath(filename) == expected_path
+    assert os.path.exists(expected_path)
+
+    os.remove(expected_path)
+    assert not os.path.exists(expected_path)
