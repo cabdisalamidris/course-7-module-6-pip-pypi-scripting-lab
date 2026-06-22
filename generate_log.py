@@ -1,17 +1,19 @@
 from datetime import datetime
+
 import requests
 
 
-def generate_log(data):
-    if not isinstance(data, list):
+def generate_log(log_entries):
+    if not isinstance(log_entries, list):
         raise ValueError("Input must be a list")
 
     filename = f"log_{datetime.now().strftime('%Y%m%d')}.txt"
 
     with open(filename, "w") as file:
-        for entry in data:
+        for entry in log_entries:
             file.write(f"{entry}\n")
 
+    print(f"Log file created: {filename}")
     print(f"Log written to {filename}")
     return filename
 
