@@ -3,8 +3,6 @@ import requests
 
 
 def generate_log(data):
-    """Write a log summary to a file with today's date."""
-
     if not isinstance(data, list):
         raise ValueError("Input must be a list")
 
@@ -19,37 +17,24 @@ def generate_log(data):
 
 
 def fetch_data():
-    """Fetch data from a public API."""
-
     try:
-        response = requests.get(
-            "https://jsonplaceholder.typicode.com/posts/1"
-        )
-
+        response = requests.get("https://jsonplaceholder.typicode.com/posts/1")
         if response.status_code == 200:
             return response.json()
-
-    except requests.exceptions.RequestException as e:
-        print(f"Error fetching data: {e}")
+    except requests.exceptions.RequestException as error:
+        print(f"Error fetching data: {error}")
 
     return {}
 
 
 if __name__ == "__main__":
-    # Generate log file
     log_data = [
         "User logged in",
         "User updated profile",
-        "Report exported"
+        "Report exported",
     ]
 
     generate_log(log_data)
 
-    # Fetch data from API
     post = fetch_data()
-
-    if post:
-        print(
-            "Fetched Post Title:",
-            post.get("title", "No title found")
-        )
+    print("Fetched Post Title:", post.get("title", "No title found"))
